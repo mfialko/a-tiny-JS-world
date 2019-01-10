@@ -1,13 +1,56 @@
-/* Refer to https://github.com/OleksiyRudenko/a-tiny-JS-world for the task details
-   Complete the below for code reviewers' convenience:
 
-   Code repository: _put repo URL here_
+
+   /*Code repository: _put repo URL here_
    Web app: _put project's github pages URL here_
    */
 
-// ======== OBJECTS DEFINITIONS ========
-// Define your objects here
+const dog = {
+    species: "dog",
+    name: "Mukhtar",
+    legs: 4, 
+    hands: 0,
+    gender: "male",
+    saying: "woof",
+    friends: "Murchik, Yuriy"
+}
 
+const cat = {
+    species: "cat",
+    name: "Murchik",
+    legs: 4,
+    hands: 0,
+    gender: "male",
+    saying: "meow",
+    friends: "Alina, Mukhtar, Yuriy"
+}
+
+const man = {
+    species: "human",
+    name: "Yuriy",
+    legs: 2,
+    hands: 2,
+    gender: "male",
+    saying: "Privet",
+    friends: "Alina, Mukhtar, Murchik"
+}
+
+const woman = {
+    species: "human",
+    name: "Alina",
+    legs: 2,
+    hands: 2,
+    gender: "female",
+    saying: "Hello",
+    friends: "Yuriy, Murchik"
+}
+
+function printInhabitant(obj) {
+    print([obj.species, obj.name, obj.gender, obj.legs, obj.hands, obj.saying, obj.friends].join("; "));
+}
+
+[dog, cat, man, woman].forEach(element => {
+    return printInhabitant(element);
+});
 
 // ======== OUTPUT ========
 /* Use print(message) for output.
