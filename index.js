@@ -3,52 +3,70 @@
    /*Code repository: _put repo URL here_
    Web app: _put project's github pages URL here_
    */
-
-const dog = {
-    species: "dog",
-    name: "Mukhtar",
-    legs: 4, 
-    hands: 0,
-    gender: "male",
-    saying: "woof",
-    friends: "Murchik, Yuriy"
+class Inhabitant {
+    constructor(species, name, gender, saying) {
+      this.species = species;
+      this.name = name;
+      this.gender = gender;
+      this.saying = saying;
+      this.friends = [];
+      inhabitants.push(this);
+    }
+    toString(){
+        return [this.species, `<b>${this.name}</b>`, this.gender, 
+                this.saying, this.friends].join('; ');
+    }
+    addFriends(...friendObjects) {
+        this.friends.push(friendObjects.map(e => e.name));
+        friendObjects.map(e => e.friends.push(this.name));
+    }
 }
 
-const cat = {
-    species: "cat",
-    name: "Murchik",
-    legs: 4,
-    hands: 0,
-    gender: "male",
-    saying: "meow",
-    friends: "Alina, Mukhtar, Yuriy"
+class Human extends Inhabitant {
+    constructor(name, gender, saying, legs = 2, hands = 2) {
+        super('human', name, gender, saying);
+        this.legs = legs;
+        this.hands = hands;
+    }
+    toString(){
+        return [super.toString(), this.hands, this.legs].join('; ');
+    }
 }
 
-const man = {
-    species: "human",
-    name: "Yuriy",
-    legs: 2,
-    hands: 2,
-    gender: "male",
-    saying: "Privet",
-    friends: "Alina, Mukhtar, Murchik"
+class Animal extends Inhabitant {
+    constructor(species, name, gender, saying, paws) {
+        super(species, name, gender, saying);
+        this.paws = paws;
+    }
+    toString(){
+        return super.toString() + '; ' + this.paws;
+    }
+}
+class Cat extends Animal {
+    constructor(name, gender, saying) {
+        super('cat', name, gender, saying, 4);
+    }
+}
+      
+class Dog extends Animal {
+    constructor(name, gender, saying) {
+        super('dog', name, gender, saying, 4);
+    }
 }
 
-const woman = {
-    species: "human",
-    name: "Alina",
-    legs: 2,
-    hands: 2,
-    gender: "female",
-    saying: "Hello",
-    friends: "Yuriy, Murchik"
-}
+let inhabitants = [];
 
-function printInhabitant(obj) {
-    print([obj.species, obj.name, obj.gender, obj.legs, obj.hands, obj.saying, obj.friends].join("; "));
-}
+const dog = new Dog('Mukhtar', 'male', 'Woof');
+const cat = new Cat('Murchik', 'male', 'Meow');
+const man = new Human('Yuriy', 'male', 'Privet');
+const woman = new Human('Alina', 'female', 'Hello');
 
-[dog, cat, man, woman].forEach(printInhabitant);
+dog.addFriends(cat, man);
+man.addFriends(woman, cat);
+woman.addFriends(cat);
+
+
+inhabitants.forEach(e=>print(e));
 
 // ======== OUTPUT ========
 /* Use print(message) for output.
