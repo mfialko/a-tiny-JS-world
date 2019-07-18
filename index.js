@@ -5,19 +5,29 @@
    */
 class Inhabitant {
     constructor(species, name, gender, saying) {
-      this.species = species;
-      this.name = name;
-      this.gender = gender;
-      this.saying = saying;
-      this.friends = [];
-      inhabitants.push(this);
+        this.species = species;
+        this.name = name;
+        this.gender = gender;
+        this.saying = saying;
+        this.friends = [];
+        inhabitants.push(this);
     }
     toString(){
-        return [this.species, `<b>${this.name}</b>`, this.gender, 
-                this.saying, this.friends].join('; ');
+        return Object.keys(this).map(e => {
+            if (Array.isArray(this[e])) {
+                return `${e}: ${this[e].join(', ')}`;
+            }
+            else if (this[e]) {
+                if (e === 'name') {
+                    return `${e}: <b>${this[e]}</b>`;
+                } else {
+                    return `${e}: ${this[e]}`;
+                }
+            } 
+        }).filter(Boolean).join('; ');
     }
     addFriends(...friendObjects) {
-        this.friends.push(friendObjects.map(e => e.name));
+        this.friends.push(...friendObjects.map(e => e.name));
         friendObjects.map(e => e.friends.push(this.name));
     }
 }
@@ -28,9 +38,6 @@ class Human extends Inhabitant {
         this.legs = legs;
         this.hands = hands;
     }
-    toString(){
-        return [super.toString(), this.hands, this.legs].join('; ');
-    }
 }
 
 class Animal extends Inhabitant {
@@ -38,26 +45,24 @@ class Animal extends Inhabitant {
         super(species, name, gender, saying);
         this.paws = paws;
     }
-    toString(){
-        return super.toString() + '; ' + this.paws;
-    }
 }
 class Cat extends Animal {
-    constructor(name, gender, saying) {
+    constructor(name, gender, saying = 'meow') {
         super('cat', name, gender, saying, 4);
     }
 }
       
 class Dog extends Animal {
-    constructor(name, gender, saying) {
+    constructor(name, gender, saying = 'woof') {
         super('dog', name, gender, saying, 4);
     }
 }
 
+
 let inhabitants = [];
 
-const dog = new Dog('Mukhtar', 'male', 'Woof');
-const cat = new Cat('Murchik', 'male', 'Meow');
+const dog = new Dog('Mukhtar', 'male');
+const cat = new Cat('Murchik', 'male');
 const man = new Human('Yuriy', 'male', 'Privet');
 const woman = new Human('Alina', 'female', 'Hello');
 
@@ -66,7 +71,8 @@ man.addFriends(woman, cat);
 woman.addFriends(cat);
 
 
-inhabitants.forEach(e=>print(e));
+
+inhabitants.forEach(e => print(e));
 
 // ======== OUTPUT ========
 /* Use print(message) for output.
